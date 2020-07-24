@@ -46,7 +46,7 @@ jobs: # basic units of work in a run
       - run:
           name: Build the service
           environment:
-            GOFLAGS=-v -a -toolexec={{ .Environment.CIRCLE_WORKING_DIRECTORY }}/sqreen-instrumentation-tool
+            GOFLAGS: -v -a -toolexec={{ .Environment.CIRCLE_WORKING_DIRECTORY }}/sqreen-instrumentation-tool
           command: make
 
 
