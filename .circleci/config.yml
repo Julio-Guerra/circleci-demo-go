@@ -39,7 +39,13 @@ jobs: # basic units of work in a run
             PACKAGE_NAMES=$(go list ./... | circleci tests split --split-by=timings --timings-type=classname)
             gotestsum --junitfile ${TEST_RESULTS}/gotestsum-report.xml -- $PACKAGE_NAMES
 
-      - run: make # pull and build dependencies for the project
+      - run:
+          name: Build Sqreen Instrumentation Tool
+          command: go build -v github.com/sqreen/go-agent/sdk/sqreen-instrumentation-tool
+
+      - run:
+          name: Build the service
+          command: ls && env GOFLAGS="-v -a -toolexec=$PWD/sqreen-instrumentation-tool" make
 
       - save_cache:
           key: go-mod-v4-{{ checksum "go.sum" }}
