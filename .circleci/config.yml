@@ -45,10 +45,7 @@ jobs: # basic units of work in a run
 
       - run:
           name: Build the service
-          environment:
-            GOFLAGS: -v -a -toolexec={{ .Environment.CIRCLE_WORKING_DIRECTORY }}/sqreen-instrumentation-tool
-          command: make
-
+          command: env GOFLAGS="-v -a -toolexec=$CIRCLE_WORKING_DIRECTORY/sqreen-instrumentation-tool" make
 
       - save_cache:
           key: go-mod-v4-{{ checksum "go.sum" }}
