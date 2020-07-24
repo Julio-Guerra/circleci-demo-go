@@ -9,12 +9,13 @@ import (
 	"github.com/CircleCI-Public/circleci-demo-go/service"
 	_ "github.com/mattes/migrate/driver/postgres"
 	"github.com/mattes/migrate/migrate"
+	"github.com/sqreen/go-agent/sdk/middleware/sqhttp"
 )
 
 func main() {
 	db := SetupDB()
 	server := service.NewServer(db)
-	http.HandleFunc("/", server.ServeHTTP)
+	http.Handle("/", sqhttp.Middleware(server))
 	http.ListenAndServe(":8080", nil)
 }
 
